@@ -1,0 +1,4 @@
+{"STYLE_VOSEO":false,"ultimosMensajes":12,"timeoutMs":6500,"maxChars":1000,"minAnio":8,
+ "manual":{"n3Ms":120000,"n2Ms":300000,"_nota":"Tiempos de respuesta en modo Manual (nivel 3: 2 min, nivel 2: 5 min). Al pasar el doble se envia el mensaje fijo de seguridad. PENDIENTE: los definen los psicologos."},
+ "polling":{"activoMs":3000,"reposoMs":15000,"ocultoMs":20000,"panelListaMs":15000},
+ "lockStaleMs":120000}

@@ -1,0 +1,8 @@
+{"_nota":"PLANTILLAS DE RESPUESTA PARA EL MODO MANUAL. Las escribio un asistente como BORRADOR para revision. Ninguna se puede usar en el panel hasta que un psicologo las revise y cambie \"aprobada\" a true. Sin metodos, sin diagnosticos, sin promesas de secreto. No inventar lineas de ayuda.",
+ "plantillas":[
+  {"id":"saludo","titulo":"Presentación","texto":"Hola, soy una persona del equipo. Leí lo que me contaste y quiero acompañarte. ¿Cómo te sientes ahora mismo?","aprobada":false},
+  {"id":"seguridad","titulo":"Preguntar por seguridad","texto":"Gracias por contármelo. Me importa que estés a salvo. ¿Estás en un lugar seguro ahora? ¿Hay un adulto de confianza cerca de ti?","aprobada":false},
+  {"id":"adulto","titulo":"Animar a buscar a un adulto","texto":"No tienes que pasar por esto tú solo/a. ¿Hay algún adulto de confianza con quien puedas hablar hoy? Si quieres, pensamos juntos cómo decírselo.","aprobada":false},
+  {"id":"emergencia","titulo":"Recordar el 911","texto":"Si en algún momento sientes que estás en peligro, llama al 911 o busca de inmediato a un adulto cerca de ti. Yo sigo aquí contigo.","aprobada":false},
+  {"id":"volver_ia","titulo":"Avisar que vuelve la IA","texto":"Voy a dejarte de nuevo con el acompañante de inteligencia artificial. Recuerda que es una IA, no una persona. Si necesitas hablar con alguien del equipo, avísanos.","aprobada":false}
+ ]}

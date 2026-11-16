@@ -1,0 +1,12 @@
+{
+ "name": "acompanante-prototipo",
+ "private": true,
+ "type": "commonjs",
+ "dependencies": {
+  "@google/genai": "latest",
+  "@netlify/blobs": "latest"
+ },
+ "scripts": {
+  "test": "node tests/run.js && node tests/servidor.js"
+ }
+}

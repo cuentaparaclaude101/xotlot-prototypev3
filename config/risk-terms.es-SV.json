@@ -1,0 +1,9 @@
+{"_nota":"Ejemplos genéricos de categoría. Los psicólogos completarán la jerga salvadoreña. Se busca sobre texto normalizado (minúsculas, sin tildes).",
+ "categorias":[
+  {"id":"ideacion_explicita","piso":3,"terminos":["quiero morirme","me quiero morir","quiero quitarme la vida","quiero suicidarme","me voy a matar","no quiero vivir"]},
+  {"id":"plan_o_intencion","piso":3,"terminos":["ya tengo un plan","esta noche me mato"]},
+  {"id":"abuso_actual","piso":3,"terminos":["me toca","abusa de mi","me obliga a hacer cosas sexuales"]},
+  {"id":"ideacion_ambigua","piso":2,"terminos":["me muero","mejor no estar","ya no aguanto","soy una carga","nadie me extranaria"]},
+  {"id":"autolesion","piso":2,"terminos":["me corto","me hago dano","hacerme dano"]},
+  {"id":"acoso","piso":1,"terminos":["me hacen bullying","me acosan","me pegan en la escuela"]}
+ ]}

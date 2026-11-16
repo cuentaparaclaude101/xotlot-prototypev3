@@ -1,0 +1,15 @@
+{
+ "_nota": "Orden de prioridad. Un proveedor se usa solo si tiene su clave Y su modelo en las variables de entorno de Netlify. Si uno falla (cuota 429, clave mala, caida o lentitud), se pasa al siguiente. Los modelos NO estan escritos aqui: verifica el nombre vigente en la documentacion de cada proveedor. Solo datos ficticios.",
+ "orden": ["gemini", "p2", "p3", "p4", "p5"],
+ "proveedores": {
+  "gemini": { "tipo": "gemini", "nombre": "Gemini", "key": "GEMINI_API_KEY", "model": "GEMINI_MODEL", "audio": true },
+  "p2": { "tipo": "openai", "nombre": "Groq", "url": "https://api.groq.com/openai/v1/chat/completions", "key": "AI2_KEY", "model": "AI2_MODEL", "urlEnv": "AI2_URL", "json": true },
+  "p3": { "tipo": "openai", "nombre": "OpenRouter", "url": "https://openrouter.ai/api/v1/chat/completions", "key": "AI3_KEY", "model": "AI3_MODEL", "urlEnv": "AI3_URL", "json": false },
+  "p4": { "tipo": "openai", "nombre": "Cerebras", "url": "https://api.cerebras.ai/v1/chat/completions", "key": "AI4_KEY", "model": "AI4_MODEL", "urlEnv": "AI4_URL", "json": true },
+  "p5": { "tipo": "openai", "nombre": "Mistral", "url": "https://api.mistral.ai/v1/chat/completions", "key": "AI5_KEY", "model": "AI5_MODEL", "urlEnv": "AI5_URL", "json": true }
+ },
+ "presupuestoMs": 7500,
+ "primerIntentoMs": 4500,
+ "intentoMs": 3500,
+ "frioMs": { "cuota": 120000, "auth": 1800000, "otro": 20000 }
+}

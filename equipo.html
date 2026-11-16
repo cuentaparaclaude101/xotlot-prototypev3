@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Panel del equipo · versión de prueba</title>
+<style>
+:root{--ac:#b44cff;--acb:#9b3df0;--cy:#37e6ff;--tx:#f5eaff;--sub:#a99bc0;--pn:rgba(18,9,30,.92);--ln:rgba(255,255,255,.1);--dg:#ff6b78;--verde:#3ddc97;--amar:#ffd24a;--rojo:#ff4d5e}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#05030c}
+body{font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--tx);overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+input,textarea{font:inherit;color:var(--tx);background:rgba(255,255,255,.08);border:1px solid var(--ln);border-radius:12px;padding:0 14px;outline:none;width:100%}
+input{min-height:44px}textarea{padding:10px 14px;resize:none}
+input:focus,textarea:focus{border-color:var(--ac)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,.fila:focus-visible{outline:2px solid var(--cy);outline-offset:2px}
+[hidden]{display:none!important}
+p{margin:0;color:var(--sub)}
+.btn{min-height:44px;padding:0 18px;border-radius:999px;background:var(--acb);color:#fff;font-weight:600}
+.btn.ghost{background:transparent;border:1px solid var(--ln);color:var(--tx)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.err{color:var(--dg);font-size:14px;min-height:20px}
+#chica{display:none;height:100%;place-items:center;text-align:center;padding:30px;background:linear-gradient(160deg,#12002b,#3a0a6e 55%,#0a0014)}
+#chica h1{font-size:22px;margin:0 0 8px}
+body.pequena #chica{display:grid}body.pequena #login,body.pequena #panel,body.pequena #urg{display:none!important}
+#login{height:100%;display:grid;place-items:center;background:linear-gradient(160deg,#12002b,#3a0a6e 55%,#0a0014)}
+#login .card{width:380px;background:rgba(23,16,42,.92);border:1px solid var(--ln);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:6px}
+#login h1{margin:0 0 6px;font-size:22px}
+label{font-size:13px;color:var(--sub);margin-top:8px}
+#panel{height:100%;display:grid;grid-template-columns:340px minmax(420px,1fr) 340px;grid-template-rows:auto 1fr;background:linear-gradient(160deg,#12002b,#2a0850 55%,#0a0014)}
+#urg{grid-column:1/-1;display:none;gap:10px;align-items:center;padding:8px 14px;background:#4a0f18;border-bottom:1px solid var(--rojo);font-weight:600}
+#urg.on{display:flex}#urg button{border:1px solid var(--rojo);border-radius:999px;padding:4px 12px;min-height:32px}
+.col{min-height:0;display:flex;flex-direction:column;background:rgba(18,9,30,.96)}
+.izq{border-right:1px solid var(--ln)}.der{border-left:1px solid var(--ln)}
+.cab{padding:12px 14px;border-bottom:1px solid var(--ln);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cab b{font-size:16px}.cab small{color:var(--sub)}
+.filtros{padding:10px 12px;border-bottom:1px solid var(--ln);display:flex;flex-direction:column;gap:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{min-height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(55,230,255,.4);color:var(--cy);font-size:13px;font-weight:600}
+.chip[aria-pressed=true]{background:var(--cy);color:#05030c}
+#lista{flex:1;overflow-y:auto}
+.fila{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;padding:11px 14px;border-bottom:1px solid var(--ln);min-height:64px}
+.fila:hover{background:rgba(255,255,255,.05)}.fila.sel{background:rgba(180,76,255,.2)}
+.punto{width:14px;height:14px;border-radius:50%;flex:none}
+.punto.rojo{background:var(--rojo);box-shadow:0 0 0 3px rgba(255,77,94,.3)}.punto.amarillo{background:var(--amar)}.punto.verde{background:var(--verde)}
+.fila b{display:block;font-size:15px}.fila small{color:var(--sub);font-size:12.5px}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:1px 8px;margin-right:4px;border:1px solid}
+.tag.rojo{color:var(--rojo);border-color:var(--rojo)}.tag.amarillo{color:var(--amar);border-color:var(--amar)}.tag.verde{color:var(--verde);border-color:var(--verde)}
+.tag.m{color:var(--cy);border-color:rgba(55,230,255,.5)}
+.nuevo{background:var(--cy);color:#05030c;font-size:11px;font-weight:800;border-radius:999px;padding:2px 8px}
+.centro{background:transparent}
+#msgs{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.vacio{margin:auto;text-align:center;max-width:300px}
+.b{max-width:72%;padding:8px 13px 6px;border-radius:19px;font-size:15px;overflow-wrap:anywhere;white-space:pre-wrap}
+.b .q{display:block;font-size:11.5px;font-weight:700;margin-bottom:2px;opacity:.9}
+.b .t{display:block;text-align:right;font-size:10.5px;opacity:.7}
+.b.usuario{align-self:flex-start;background:rgba(36,22,58,.95);border:1px solid rgba(180,76,255,.3);border-bottom-left-radius:6px}
+.b.ia{align-self:flex-end;background:linear-gradient(135deg,#6a24d1,#9b3df0);border-bottom-right-radius:6px}
+.b.profesional{align-self:flex-end;background:rgba(8,36,48,.95);border:1px solid rgba(55,230,255,.55);border-bottom-right-radius:6px}
+.b.profesional .q{color:var(--cy)}
+.sis{align-self:center;max-width:80%;text-align:center;font-size:13px;color:var(--cy);background:rgba(55,230,255,.08);border:1px solid rgba(55,230,255,.3);border-radius:14px;padding:6px 12px}
+.sis.auto{color:var(--amar);border-color:rgba(255,210,74,.5);background:rgba(255,210,74,.08)}
+.lv{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:0 7px;margin-left:6px;border:1px solid}
+.avisos{display:flex;flex-direction:column;gap:6px;padding:8px 18px 0}
+.av{border-radius:12px;padding:8px 12px;font-size:13.5px;border:1px solid}
+.av.rojo{background:rgba(255,77,94,.12);border-color:var(--rojo);color:#ffd5d9}
+.av.amar{background:rgba(255,210,74,.1);border-color:var(--amar);color:#ffeeb0}
+.av.info{background:rgba(55,230,255,.08);border-color:rgba(55,230,255,.4);color:var(--cy)}
+.compo{padding:10px 14px;border-top:1px solid var(--ln);display:flex;gap:8px;align-items:flex-end}
+.compo textarea{flex:1;min-height:44px;max-height:120px;border-radius:14px}
+.compo .nota{font-size:12px;color:var(--sub);padding:0 14px 8px}
+.ficha{overflow-y:auto;flex:1;padding:14px;display:flex;flex-direction:column;gap:14px}
+.card2{background:rgba(23,16,42,.88);border:1px solid var(--ln);border-radius:14px;padding:12px}
+.card2 h3{margin:0 0 8px;font-size:13px;color:var(--sub);text-transform:uppercase;letter-spacing:.04em}
+.modos{display:flex;flex-direction:column;gap:6px}
+.modos button{min-height:44px;border-radius:12px;border:1px solid var(--ln);text-align:left;padding:6px 12px}
+.modos button small{display:block;color:var(--sub);font-size:12px}
+.modos button[aria-pressed=true]{border-color:var(--cy);background:rgba(55,230,255,.12)}
+.modos button:disabled{opacity:.5;cursor:not-allowed}
+.item{font-size:13px;padding:6px 0;border-bottom:1px solid var(--ln)}.item:last-child{border:0}
+.kbd{font-size:12px;color:var(--sub)}.kbd kbd{border:1px solid var(--ln);border-radius:5px;padding:0 5px;font:inherit;background:rgba(255,255,255,.07)}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:9}#ov.on{display:grid}
+#ov .box{width:640px;max-height:80vh;overflow:auto;background:#17102a;border:1px solid var(--ln);border-radius:16px;padding:18px}
+.bus{display:flex;gap:6px}.bus input{min-height:38px;border-radius:999px}
+.etq{display:inline-block;font-size:11px;border-radius:6px;padding:0 6px;margin:2px 4px 0 0;background:rgba(180,76,255,.25);color:#e9d2ff}
+.etq button{margin-left:4px;color:#e9d2ff;font-weight:800}
+mark{background:#ffe066;color:#111;border-radius:3px;padding:0 2px}
+#pla{position:absolute;bottom:64px;left:14px;width:420px;background:#17102a;border:1px solid var(--ln);border-radius:14px;padding:10px;display:none;z-index:5;max-height:300px;overflow:auto}#pla.on{display:block}
+#pla button.p{display:block;width:100%;text-align:left;padding:8px 10px;border-radius:10px;border:1px solid var(--ln);margin-bottom:6px;min-height:44px}
+#pla button.p:disabled{opacity:.5;cursor:not-allowed}#pla small{display:block;color:var(--sub);font-size:12px}
+.centro{position:relative}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<div id="chica"><div><h1>El panel profesional está diseñado para computadora</h1><p>Abre esta página en una pantalla de al menos 1100 px de ancho.</p></div></div>
+
+<div id="login"><div class="card"><h1>Panel del equipo</h1><p>Versión de prueba con datos ficticios.</p>
+<label for="pw">Contraseña del equipo</label><input id="pw" type="password" autocomplete="off">
+<label for="nm">Tu nombre ficticio (se le muestra al usuario cuando le escribes)</label><input id="nm" maxlength="30" autocomplete="off" placeholder="Ej. Marta">
+<div class="err" id="le"></div><button class="btn" id="lok">Entrar</button>
+<p style="font-size:12px;margin-top:6px">Antes de usar con menores reales hay que pasar a cuentas individuales.</p></div></div>
+
+<div id="panel" hidden>
+ <div id="urg" role="alert"><span>⚠ Sin respuesta del equipo:</span><span id="urgL"></span></div>
+ <section class="col izq" aria-label="Usuarios">
+  <div class="cab"><div><b>Usuarios</b><br><small id="cuenta"></small></div><button class="chip" id="bAud">Registro</button></div>
+  <div class="filtros">
+   <div class="bus"><input id="bus" type="search" placeholder="Buscar por alias o etiqueta…" aria-label="Buscar usuarios"></div>
+   <div class="chips" id="fColor" role="group" aria-label="Filtrar por color"></div>
+   <div class="chips" id="fModo" role="group" aria-label="Filtrar por modo"></div>
+  </div>
+  <div id="lista" role="list"></div>
+ </section>
+ <section class="col centro" aria-label="Conversación">
+  <div class="cab" id="cabC"><div><b id="cAlias">Selecciona un usuario</b><br><small id="cSub"></small></div><input id="bchat" type="search" placeholder="Buscar en este chat…" aria-label="Buscar en este chat" style="width:200px;min-height:36px;border-radius:999px" hidden></div>
+  <div class="avisos" id="avisos"></div>
+  <div id="msgs" aria-live="polite"><div class="vacio"><p>Elige una conversación de la lista. Los casos en rojo aparecen primero.</p></div></div>
+  <div id="pla" role="dialog" aria-label="Plantillas de respuesta"></div>
+  <div class="compo" id="compo" hidden><button class="btn ghost" id="bpla" type="button">Plantillas</button><textarea id="tx" rows="1" maxlength="1000" placeholder="Escribe a la persona usuaria…" aria-label="Mensaje del profesional"></textarea><button class="btn" id="env">Enviar</button></div>
+  <div class="nota compo" style="border:0;padding-top:0" id="notaC"></div>
+ </section>
+ <section class="col der" aria-label="Ficha del caso">
+  <div class="cab"><b>Ficha del caso</b></div>
+  <div class="ficha" id="ficha"><p>Sin conversación seleccionada.</p></div>
+ </section>
+</div>
+<div id="ov"><div class="box" id="ovb"></div></div>
+<script>
+const $=s=>document.querySelector(s),esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hhmm=t=>new Date(t).toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
+const rel=t=>{if(!t)return'';const m=Math.round((Date.now()-t)/60000);return m<1?'ahora':m<60?'hace '+m+' min':m<1440?'hace '+Math.round(m/60)+' h':new Date(t).toLocaleDateString('es')};
+const MODOS={ia:['IA','La IA responde sola'],asistido:['Asistido','Tú observas; la IA sigue respondiendo'],manual:['Manual','Tú tomas el chat; la IA se detiene']};
+const POLL={lista:15000,activo:3000,reposo:15000};
+let pw=sessionStorage.getItem('eqpw')||'',nm=sessionStorage.getItem('eqnm')||'';
+let busq='',busChat='',plant=null,lista=[],sel=null,msgs=[],ficha=null,fColor='todos',fModo='todos',rojosVistos=null,tLista=null,tChat=null,tLat=null,actx=null,ultSonido=0;
+function chico(){const p=innerWidth<1100;document.body.classList.toggle('pequena',p);if(p){clearTimeout(tLista);clearTimeout(tChat);clearInterval(tLat)}else if(pw&&!tLista&&$('#panel')&&!$('#panel').hidden)iniciar();return p}
+addEventListener('resize',chico);
+async function api(action,extra){const r=await fetch('/.netlify/functions/staff',{method:'POST',body:JSON.stringify({password:pw,nombre:nm,action,...extra})});let b={};try{b=await r.json()}catch(e){}
+ if(r.status===401){sesionCaida();throw 401}return{s:r.status,b}}
+function sesionCaida(){pw='';sessionStorage.removeItem('eqpw');clearTimeout(tLista);clearTimeout(tChat);clearInterval(tLat);tLista=tChat=null;$('#panel').hidden=true;$('#login').hidden=false;$('#le').textContent='Contraseña incorrecta o sesión vencida.'}
+// ---- sonido (WebAudio, sin archivos)
+function pitido(n){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const t0=actx.currentTime;for(let i=0;i<(n||2);i++){const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=i%2?660:880;o.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(.0001,t0+i*.22);g.gain.exponentialRampToValueAtTime(.25,t0+i*.22+.02);g.gain.exponentialRampToValueAtTime(.0001,t0+i*.22+.2);o.start(t0+i*.22);o.stop(t0+i*.22+.21)}}catch(e){}}
+// ---- login
+$('#lok').onclick=async()=>{pw=$('#pw').value;nm=$('#nm').value.trim();if(nm.length<2){$('#le').textContent='Escribe un nombre ficticio (mínimo 2 letras).';return}
+ $('#le').textContent='';pitido(0);try{const r=await api('lista');if(r.s!==200)throw r;sessionStorage.setItem('eqpw',pw);sessionStorage.setItem('eqnm',nm);$('#login').hidden=true;$('#panel').hidden=false;pintarLista(r.b);iniciar()}catch(e){if(e!==401){const x=e&&e.b||{};$('#le').textContent='No pude cargar (HTTP '+(e&&e.s||'sin respuesta')+(x.error?', '+x.error:'')+(x.detalle?': '+x.detalle:'')+'). Revisa la configuración del servidor.'}}};
+$('#pw').onkeydown=$('#nm').onkeydown=e=>{if(e.key==='Enter')$('#lok').click()};
+function iniciar(){clearTimeout(tLista);tLista=null;const paso=async()=>{try{const r=await api('lista');if(r.s===200)pintarLista(r.b)}catch(e){}tLista=setTimeout(paso,POLL.lista)};tLista=setTimeout(paso,POLL.lista);
+ clearInterval(tLat);tLat=setInterval(()=>{if(sel)api('latido',{id:sel}).catch(()=>{})},10000);if(sel)programarChat()}
+// ---- filtros y lista
+function chips(el,vals,act,fn){el.innerHTML=vals.map(([v,t])=>`<button class="chip" data-v="${v}" aria-pressed="${v===act}">${t}</button>`).join('');el.querySelectorAll('button').forEach(b=>b.onclick=()=>{fn(b.dataset.v);pintarLista()})}
+const colTxt={rojo:'Nivel 3',amarillo:'Nivel 2',verde:'Nivel 0-1'};
+function pintarLista(d){if(d){const prev=lista;lista=d.lista;const rojos=new Set(lista.filter(x=>x.color==='rojo'&&!x.revisadoT).map(x=>x.id));
+  if(rojosVistos&&[...rojos].some(id=>!rojosVistos.has(id))){pitido(3)}rojosVistos=rojos;urgentes()}
+ chips($('#fColor'),[['todos','Todos'],['rojo','Rojo'],['amarillo','Amarillo'],['verde','Verde']],fColor,v=>fColor=v);
+ chips($('#fModo'),[['todos','Todos los modos'],['ia','IA'],['asistido','Asistido'],['manual','Manual']],fModo,v=>fModo=v);
+ const q=busq.trim().toLowerCase();const v=lista.filter(x=>(fColor==='todos'||x.color===fColor)&&(fModo==='todos'||x.modo===fModo)&&(!q||x.alias.toLowerCase().includes(q)||(x.etiquetas||[]).some(t=>t.toLowerCase().includes(q))));
+ $('#cuenta').textContent=lista.length+' conversaciones · '+lista.filter(x=>x.color==='rojo').length+' en rojo';
+ $('#lista').innerHTML=v.length?v.map(x=>`<button class="fila${x.id===sel?' sel':''}" role="listitem" data-id="${x.id}" aria-label="${esc(x.alias)}, ${x.nivelTxt}, modo ${MODOS[x.modo][0]}${x.noLeido?', mensaje nuevo sin leer':''}">
+  <span class="punto ${x.color}" aria-hidden="true"></span>
+  <span><b>${esc(x.alias)} <small>${esc(x.modoEdad)}</small></b><small><span class="tag ${x.color}">${x.nivelTxt}</span><span class="tag m">${MODOS[x.modo][0]}</span>${x.tomadoPor?'· '+esc(x.tomadoPor):''}</small>${(x.etiquetas||[]).length?'<br>'+x.etiquetas.map(t=>`<span class="etq">${esc(t)}</span>`).join(''):''}</span>
+  <span style="text-align:right"><small>${rel(x.ultimoT)}</small>${x.noLeido?'<br><span class="nuevo">Nuevo</span>':''}</span></button>`).join(''):'<p style="padding:16px">No hay conversaciones con estos filtros.</p>';
+ $('#lista').querySelectorAll('.fila').forEach(b=>b.onclick=()=>abrir(b.dataset.id))}
+function urgentes(){const u=lista.filter(x=>x.espera&&x.espera.vencido);const el=$('#urg');el.classList.toggle('on',u.length>0);
+ $('#urgL').innerHTML=u.map(x=>`<button data-id="${x.id}">${esc(x.alias)} · ${x.nivelTxt} · ${Math.floor(x.espera.seg/60)}:${String(x.espera.seg%60).padStart(2,'0')} min${x.espera.critico?' · se envió el mensaje fijo':''}</button>`).join(' ');
+ el.querySelectorAll('button').forEach(b=>b.onclick=()=>abrir(b.dataset.id));
+ if(u.length&&Date.now()-ultSonido>12000){ultSonido=Date.now();pitido(2)}}
+// ---- abrir y refrescar un chat
+async function abrir(id){sel=id;msgs=[];ficha=null;busChat='';$('#bchat').value='';$('#pla').classList.remove('on');clearTimeout(tChat);pintarCentro();pintarLista();await leer(true)}
+function kMax(){return msgs.reduce((x,m)=>m.k>x?m.k:x,'')}
+async function leer(abrirChat){if(!sel)return;const id=sel;
+ try{const r=await api('leer',{id,abrir:!!abrirChat,desde:abrirChat?'':kMax()});if(id!==sel||r.s!==200)return;
+  const d=r.b;const conocidos=new Set(msgs.map(m=>m.k));d.msgs.forEach(m=>{if(!conocidos.has(m.k))msgs.push(m)});msgs.sort((a,b)=>a.k<b.k?-1:1);
+  ficha={...(ficha||{}),fila:d.fila,viendo:d.viendo,notas:d.notas,revisadoPor:d.revisadoPor,alertas:d.alertas||(ficha&&ficha.alertas)||[]};
+  const i=lista.findIndex(x=>x.id===id);if(i>=0)lista[i]=d.fila;
+  pintarCentro();pintarFicha();pintarLista();urgentes()}catch(e){}
+ programarChat()}
+function programarChat(){clearTimeout(tChat);if(!sel||!pw||document.body.classList.contains('pequena'))return;const m=ficha&&ficha.fila?ficha.fila.modo:'ia';
+ tChat=setTimeout(()=>leer(false),(m==='ia'?POLL.reposo:POLL.activo))}
+const resaltar=t=>{const e=esc(t);if(!busChat.trim())return e;const q=esc(busChat.trim()).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return e.replace(new RegExp('('+q+')','gi'),'<mark>$1</mark>')};
+function pintarCentro(){const f=ficha&&ficha.fila;$('#bchat').hidden=!sel;
+ $('#cAlias').textContent=f?f.alias:(sel?'Cargando…':'Selecciona un usuario');
+ $('#cSub').innerHTML=f?`<span class="tag ${f.color}">${f.nivelTxt}</span><span class="tag m">${MODOS[f.modo][0]}</span> ${esc(f.modoEdad)}${f.tomadoPor?' · lo tiene '+esc(f.tomadoPor):''}`:'';
+ const av=[];if(f){if(f.espera&&f.espera.vencido)av.push(`<div class="av ${f.espera.critico?'rojo':'amar'}" role="alert">${f.espera.critico?'Nadie respondió: se envió el mensaje fijo de seguridad al usuario.':'Esta persona espera tu respuesta.'} Espera: ${Math.floor(f.espera.seg/60)}:${String(f.espera.seg%60).padStart(2,'0')} min (${f.nivelTxt}).</div>`);
+  if(f.ofrecerIA)av.push('<div class="av info">Puedes devolver el chat a la IA con el botón de modo IA o seguir escribiendo.</div>');
+  if(ficha.viendo&&ficha.viendo.length)av.push(`<div class="av info">También lo está viendo: ${ficha.viendo.map(esc).join(', ')}.</div>`)}
+ $('#avisos').innerHTML=av.join('');
+ const m=$('#msgs'),abajo=m.scrollHeight-m.scrollTop-m.clientHeight<80;
+ if(!sel){m.innerHTML='<div class="vacio"><p>Elige una conversación de la lista. Los casos en rojo aparecen primero.</p></div>'}
+ else m.innerHTML=msgs.length?msgs.map(x=>x.r==='sistema'?`<div class="sis${x.auto?' auto':''}">${x.auto?'<b>Mensaje automático de seguridad</b> · ':''}${resaltar(x.text)} <small>${hhmm(x.t)}</small></div>`
+  :`<div class="b ${x.r}"><span class="q">${x.r==='usuario'?'Usuario':x.r==='ia'?'IA':'Profesional'+(x.nombre?' · '+esc(x.nombre):'')}${x.nivel>=2&&x.r==='usuario'?`<span class="lv" style="color:var(--${x.nivel>=3?'rojo':'amar'})">Nivel ${x.nivel}</span>`:''}</span>${resaltar(x.text)}<span class="t">${hhmm(x.t)}</span></div>`).join(''):'<div class="vacio"><p>Sin mensajes todavía.</p></div>';
+ if(abajo||!m.dataset.n)m.scrollTop=m.scrollHeight;m.dataset.n=msgs.length;
+ const mio=f&&f.modo==='manual'&&f.tomadoPor===nm;$('#compo').hidden=!sel;$('#tx').disabled=!mio;$('#env').disabled=!mio;
+ $('#tx').placeholder=mio?'Escribe a la persona usuaria… (Enter envía, Shift+Enter nueva línea)':'Para escribir, pasa el chat a Manual';
+ $('#notaC').textContent=f?(mio?`Estás en Manual como "${nm}". El usuario ve tu nombre y sabe que eres una persona.`:'El cuadro se activa solo en modo Manual.'):''}
+function pintarFicha(){const f=ficha.fila;const tomadoOtro=f.tomadoPor&&f.tomadoPor!==nm;
+ const ult=(ficha.alertas||[])[0];
+ $('#ficha').innerHTML=`<div class="card2"><h3>Nivel</h3><p style="color:var(--tx)"><span class="tag ${f.color}">${f.nivelTxt}</span> ${f.color==='rojo'?'riesgo alto o señal de abuso':f.color==='amarillo'?'ambiguo o preocupante':'conversación normal o malestar leve'}</p>
+  ${ult?`<p style="margin-top:6px;font-size:13px">Motivo: ${esc(ult.motivo)}</p>`:''}${f.revisadoT?`<p style="margin-top:6px;font-size:12.5px">Revisado por ${esc(ficha.revisadoPor||'')} ${rel(f.revisadoT)}</p>`:''}</div>
+ <div class="card2"><h3>Modo del chat</h3><div class="modos">${['ia','asistido','manual'].map((k,i)=>`<button data-m="${k}" aria-pressed="${f.modo===k}" ${(k==='manual'&&tomadoOtro)||(f.modo==='manual'&&tomadoOtro)?'disabled':''}>${i+1}. ${MODOS[k][0]}<small>${MODOS[k][1]}</small></button>`).join('')}</div>
+  ${tomadoOtro?`<p style="margin-top:8px;font-size:13px">Lo tiene tomado ${esc(f.tomadoPor)}.</p>`:''}<div class="err" id="me"></div></div>
+ <div class="card2"><h3>Etiquetas</h3><div id="etqs">${(f.etiquetas||[]).map((t,i)=>`<span class="etq">${esc(t)}<button data-q="${i}" aria-label="Quitar etiqueta ${esc(t)}">×</button></span>`).join('')||'<p>Sin etiquetas.</p>'}</div>
+  <input id="et" maxlength="20" placeholder="Nueva etiqueta (Enter)…" style="margin-top:8px" aria-label="Nueva etiqueta"></div>
+ <div class="card2"><button class="btn" id="rev" style="width:100%">Marcar como revisado</button><p style="font-size:12px;margin-top:6px">Es la única forma de bajar un caso en rojo. Queda registrado.</p></div>
+ <div class="card2"><h3>Historial de alertas</h3>${(ficha.alertas||[]).length?ficha.alertas.map(a=>`<div class="item"><span class="tag ${a.nivel>=3?'rojo':'amarillo'}">Nivel ${a.nivel}</span> ${esc(a.estado||'')}<br><small style="color:var(--sub)">${new Date(a.hora).toLocaleString('es-SV')} · ${esc(a.motivo)}</small></div>`).join(''):'<p>Sin alertas.</p>'}</div>
+ <div class="card2"><h3>Notas del equipo</h3>${(ficha.notas||[]).map(n=>`<div class="item">${esc(n.texto)}<br><small style="color:var(--sub)">${esc(n.por||'')} · ${new Date(n.hora).toLocaleString('es-SV')}</small></div>`).join('')||'<p>Sin notas.</p>'}
+  <input id="nt" maxlength="500" placeholder="Agregar nota…" style="margin-top:8px" aria-label="Nueva nota"><button class="btn ghost" id="gn" style="width:100%;margin-top:8px">Guardar nota</button></div>
+ <div class="kbd">Atajos: <kbd>Alt</kbd>+<kbd>↓</kbd>/<kbd>↑</kbd> caso siguiente/anterior · <kbd>Alt</kbd>+<kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> modo IA/Asistido/Manual · <kbd>Enter</kbd> enviar</div>`;
+ $('#ficha').querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>cambiarModo(b.dataset.m));
+ const guardarEtq=async l=>{await api('etiquetas',{id:sel,etiquetas:l});await leer(false)};
+ $('#ficha').querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>guardarEtq((f.etiquetas||[]).filter((_,i)=>i!==+b.dataset.q)));
+ $('#et').onkeydown=e=>{if(e.key==='Enter'){const t=$('#et').value.trim();if(t)guardarEtq([...(f.etiquetas||[]),t])}};
+ $('#rev').onclick=async()=>{await api('revisar',{id:sel});await leer(false)};
+ $('#gn').onclick=async()=>{const t=$('#nt').value.trim();if(!t)return;await api('nota',{id:sel,texto:t});await leer(false)}}
+async function cambiarModo(m){if(!sel)return;if(ficha&&ficha.fila.modo===m)return;
+ if(m==='manual'&&!confirm('Vas a tomar el chat. La IA dejará de responder y el usuario verá que le escribe una persona ("'+nm+'"). ¿Continuar?'))return;
+ const r=await api('modo',{id:sel,modo:m});if(r.s===409){const e=$('#me');if(e)e.textContent='Lo tiene tomado '+(r.b.por||'otra persona')+'.'}await leer(false)}
+async function enviar(){const t=$('#tx').value.trim();if(!t||!sel)return;$('#env').disabled=true;const r=await api('enviar',{id:sel,texto:t});if(r.s===200){$('#tx').value='';await leer(false)}else{$('#notaC').textContent='No se pudo enviar: '+(r.b.error==='no_manual'?'ya no tienes el chat en Manual.':'intenta de nuevo.')}$('#env').disabled=false;$('#tx').focus()}
+$('#env').onclick=enviar;
+$('#tx').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();enviar()}};
+// ---- busqueda y plantillas
+$('#bus').oninput=e=>{busq=e.target.value;pintarLista()};
+$('#bchat').oninput=e=>{busChat=e.target.value;pintarCentro()};
+$('#bpla').onclick=async()=>{const el=$('#pla');if(el.classList.toggle('on')){if(!plant){try{plant=(await api('plantillas')).b.plantillas||[]}catch(e){plant=[]}}
+ const puedo=!$('#tx').disabled;
+ el.innerHTML='<p style="margin-bottom:8px;font-size:12.5px">Solo se pueden usar las plantillas aprobadas por los psicólogos. Puedes editar el texto antes de enviar.</p>'+plant.map((x,i)=>`<button class="p" data-i="${i}" ${x.aprobada&&puedo?'':'disabled'}>${esc(x.titulo)}<small>${x.aprobada?(puedo?esc(x.texto):'Pasa el chat a Manual para usarla'):'Pendiente de aprobación por los psicólogos'}</small></button>`).join('');
+ el.querySelectorAll('button.p').forEach(b=>b.onclick=()=>{$('#tx').value=plant[+b.dataset.i].texto;el.classList.remove('on');$('#tx').focus()})}};
+// ---- atajos
+addEventListener('keydown',e=>{if(!e.altKey||$('#panel').hidden)return;
+ if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const v=[...document.querySelectorAll('.fila')];const i=v.findIndex(x=>x.dataset.id===sel);const n=v[Math.max(0,Math.min(v.length-1,i+(e.key==='ArrowDown'?1:-1)))];if(n)abrir(n.dataset.id)}
+ else if('123'.includes(e.key)){e.preventDefault();cambiarModo(['ia','asistido','manual'][+e.key-1])}});
+// ---- registro de actividad
+$('#bAud').onclick=async()=>{const r=await api('auditoria');$('#ovb').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b>Registro de actividad</b><span><button class="btn ghost" id="exp">Exportar CSV</button> <button class="btn ghost" id="ovx">Cerrar</button></span></div><p style="margin:6px 0 10px;font-size:13px">Quién abrió una conversación, quién cambió el modo y cuándo. No guarda el contenido de los mensajes.</p>`+(r.b.registro||[]).map(x=>`<div class="item"><b>${esc(x.quien)}</b> · ${esc(x.accion.replace(/_/g,' '))} · ${esc(x.alias||'')} ${x.detalle?'('+esc(x.detalle)+')':''}<br><small style="color:var(--sub)">${new Date(x.hora).toLocaleString('es-SV')}</small></div>`).join('');$('#ov').classList.add('on');$('#ovx').onclick=()=>$('#ov').classList.remove('on');
+ $('#exp').onclick=async()=>{const t=await api('auditoria',{todo:true});const filas=[['hora','quien','accion','alias','detalle','id_conversacion'],...(t.b.registro||[]).map(x=>[x.hora,x.quien,x.accion,x.alias||'',x.detalle||'',x.convId||''])];
+  const q=v=>'"'+String(v).replace(/"/g,'""').replace(/^([=+\-@])/,"'$1")+'"';const blob=new Blob(['\ufeff'+filas.map(f=>f.map(q).join(',')).join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='registro-actividad-'+new Date().toISOString().slice(0,10)+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}};
+$('#ov').onclick=e=>{if(e.target.id==='ov')$('#ov').classList.remove('on')};
+// ---- arranque
+chico();
+if(pw&&nm&&!document.body.classList.contains('pequena')){$('#pw').value=pw;$('#nm').value=nm;$('#lok').click()}
+</script></body></html>

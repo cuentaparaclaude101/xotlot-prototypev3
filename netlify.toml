@@ -1,0 +1,15 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["config/**", "prompts/**", "knowledge/**"]
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[redirects]]
+  from = "/equipo"
+  to = "/equipo.html"
+  status = 200
