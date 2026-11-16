@@ -7,7 +7,18 @@ const fb = require('../../../config/crisis-fallback.es.json');
 const H24 = 24 * 3600 * 1000;
 
 function connect(event) { try { const B = require('@netlify/blobs'); if (B.connectLambda) B.connectLambda(event); } catch (e) { console.error('BLOBS_FALLO', e.message); } }
-function store(name) { const { getStore } = require('@netlify/blobs'); try { return getStore({ name: name || 'conv', consistency: 'strong' }); } catch (e) { return getStore(name || 'conv'); } }
+// Lecturas "strong" si el entorno las soporta; si Netlify no da uncachedEdgeURL, se cae a lecturas normales (eventual) sin romper.
+function store(name) {
+  const { getStore } = require('@netlify/blobs'); const n = name || 'conv';
+  let fuerte = null, normal = null;
+  try { fuerte = getStore({ name: n, consistency: 'strong' }); } catch (e) {}
+  try { normal = getStore(n); } catch (e) {}
+  const base = normal || fuerte; if (!base) throw new Error('No se pudo abrir Netlify Blobs');
+  if (!fuerte || !normal) return base;
+  let soloNormal = false;
+  const leer = (m) => async (...a) => { if (!soloNormal) { try { return await fuerte[m](...a); } catch (e) { if (!/uncachedEdgeURL|strong consistency/i.test(String(e && e.message))) throw e; soloNormal = true; } } return normal[m](...a); };
+  return new Proxy(base, { get(t, k) { if (k === 'get' || k === 'list' || k === 'getWithMetadata') return leer(k); const v = t[k]; return typeof v === 'function' ? v.bind(t) : v; } });
+}
 const okId = (id) => typeof id === 'string' && /^[a-z0-9]{16,40}$/.test(id);
 const san = (a) => String(a || 'anon').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 30) || 'anon';
 const rand = () => Math.random().toString(36).slice(2, 6);
